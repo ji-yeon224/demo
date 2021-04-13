@@ -4,6 +4,7 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Board;
 import com.example.demo.model.PhotoBoard;
 import com.example.demo.repository.PhotoBoardRepository;
+import com.example.demo.util.PagingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,35 @@ public class PhotoBoardService {
     @Autowired
     private PhotoBoardRepository photoBoardRepository;
 
+
+
     public int findAllCount() {
         return (int) photoBoardRepository.count();
     }
+
+    // get paging boards data
+    public ResponseEntity<Map> getPagingPhoto(Integer p_num) {
+        Map result = null;
+
+        PagingUtil pu = new PagingUtil(p_num, 6, 5); // ($1:표시할 현재 페이지, $2:한페이지에 표시할 글 수, $3:한 페이지에 표시할 페이지 버튼의 수 )
+        List<PhotoBoard> list = photoBoardRepository.findFromTo(pu.getObjectStartNum(), pu.getObjectCountPerPage());
+        pu.setObjectCountTotal(findAllCount());
+        pu.setCalcForPaging();
+
+        System.out.println("p_num : "+p_num);
+        System.out.println(pu.toString());
+
+        if (list == null || list.size() == 0) {
+            return null;
+        }
+
+        result = new HashMap<>();
+        result.put("pagingData", pu);
+        result.put("list", list);
+
+        return ResponseEntity.ok(result);
+    }
+
     public List<PhotoBoard> getAllPhoto() {
         return photoBoardRepository.findAllByOrderByIdxDesc();
     }

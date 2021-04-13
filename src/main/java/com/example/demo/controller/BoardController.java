@@ -22,30 +22,28 @@ public class BoardController {
 
     // get paging board # 페이징 처리를 할 수 있도록 수정
     @GetMapping("/board")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("permitAll()")
+    //@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Map> getAllBoards(@RequestParam(value = "p_num", required=false) Integer p_num) {
         if (p_num == null || p_num <= 0) p_num = 1;
 
         return boardService.getPagingBoard(p_num);
     }
 
-    // get all board
-    //@GetMapping("/board")
-    // List<Board> getAllBoards() {
 
-    //    return boardService.getAllBoard();
-    //}
 
     // create board
     @PostMapping("/board")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("permitAll()")
+    //@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public Board createBoard(@RequestBody Board board) {
         return boardService.createBoard(board);
     }
 
     // get board
     @GetMapping("/board/{idx}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("permitAll()")
+    //@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Board> getBoardByNo(
             @PathVariable Integer idx) {
 

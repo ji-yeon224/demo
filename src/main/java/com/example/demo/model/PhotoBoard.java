@@ -16,29 +16,37 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 public class PhotoBoard {
 
+    //번호
     @Id
     @Column(name="photoboard_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idx;
 
+    //제목
     @Column(name = "photoboard_title")
     private String title;
 
+    //작성자
     @Column(name = "photoboard_writer")
     private String writer;
 
-    @Column(name = "photoboard_insertTime")
+    //등록일
+    @Column(name = "photoboard_insertTime", columnDefinition = "datetime default now()")
     private LocalDateTime insertTime;
 
-    @Column(name = "photoboard_views")
+    //조회수
+    @Column(name = "photoboard_views", columnDefinition = "integer default 0")
     private int viewCnt;
 
+    //내용
     @Column(name = "photoboard_content")
     private String content;
 
+    //수정일
     @Column(name = "photoboard_updateTime")
     private LocalDateTime updateTime;
 
+    //파일
     @Column(name = "photoboard_fileUrl")
     private String fileUrl;
 
